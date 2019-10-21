@@ -75,7 +75,7 @@ services:
 
   grafana:
     image: grafana/grafana:6.3.6
-	restart: unless-stopped
+    restart: unless-stopped
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/datasources:/etc/grafana/datasources
