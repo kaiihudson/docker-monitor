@@ -29,7 +29,8 @@ services:
       - 9090
     networks:
       - monitor-net
-
+    labels:
+      - traefik.enable=false
   alertmanager:
     image: prom/alertmanager:v0.19.0
     volumes:
@@ -42,7 +43,8 @@ services:
       - 9093
     networks:
       - monitor-net
-
+    labels:
+      - traefik.enable=false
   nodeexporter:
     image: prom/node-exporter:v0.18.1
     volumes:
@@ -59,7 +61,8 @@ services:
       - 9100
     networks:
       - monitor-net
-
+    labels:
+      - traefik.enable=false
   cadvisor:
     image: google/cadvisor:v0.33.0
     volumes:
@@ -72,7 +75,8 @@ services:
       - 8080
     networks:
       - monitor-net
-
+    labels:
+      - traefik.enable=false
   grafana:
     image: grafana/grafana:6.3.6
     restart: unless-stopped
@@ -86,10 +90,13 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=safePassword
       - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_ROOT_URL=https://grafana.kaii.com
     expose:
       - 3000
     networks:
       - monitor-net
+    labels:
+      - traefik.enable=false
   pushgateway:
     image: prom/pushgateway:v1.0.0
     restart: unless-stopped
@@ -97,6 +104,8 @@ services:
       - 9091
     networks:
       - monitor-net
+    labels:
+      - traefik.enable=false
   nginx:
     build: ./nginx
     volumes:
@@ -105,6 +114,8 @@ services:
     networks:
       - ingress
       - monitor-net
+    expose:
+      - 80
     labels:
       - traefik.enable=true
       - traefik.network=ingress
